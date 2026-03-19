@@ -1,0 +1,236 @@
+rpm --import https://yum.corretto.aws/corretto.key
+curl -Lo /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+yum install -y java-17-amazon-corretto-devel --nogpgcheck
+
+
+1) rpm --import https://yum.corretto.aws/corretto.key
+What it does
+
+This command imports Amazon Corretto’s GPG key into your system.
+
+Simple meaning
+
+Your server is saying:
+
+“Before I install software from Amazon Corretto repo, let me store Amazon’s signature key so I can verify whether the package is really from them.”
+
+Real-world example
+
+Suppose a courier brings a parcel.
+
+Before accepting it, you check:
+
+Is it really from Amazon?
+
+Is the seal genuine?
+
+That GPG key is like the official company seal/sample signature used to verify packages.
+
+Word breakdown
+
+rpm → package manager tool used in RHEL/CentOS/Amazon Linux type systems
+
+--import → import a key
+
+https://yum.corretto.aws/corretto.key → location of Amazon’s public key
+
+2) curl -Lo /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+What it does
+
+This downloads the Corretto repository configuration file and saves it into the yum repo folder.
+
+Simple meaning
+
+You are telling your server:
+
+“Here is the address of Amazon Corretto software store. Save it, so from now on you know where to download Corretto packages.”
+
+Real-world example
+
+Imagine your phone doesn’t know a new grocery shop exists.
+
+You save:
+
+shop name
+
+shop address
+
+contact details
+
+Now your phone knows where to order from.
+
+That .repo file is basically the saved address/details of the software shop.
+
+Word breakdown
+
+curl → used to download content from a URL
+
+-L → follow redirects
+
+-o → save output to a file
+
+/etc/yum.repos.d/corretto.repo → destination file path where yum stores repo definitions
+
+https://yum.corretto.aws/corretto.repo → repo file URL
+
+Why this location?
+
+Because /etc/yum.repos.d/ is the standard place where yum keeps repository definitions.
+
+3) yum install -y java-17-amazon-corretto-devel --nogpgcheck
+What it does
+
+This installs Amazon Corretto JDK 17 Development package.
+
+Simple meaning
+
+You are telling yum:
+
+“Go to the configured repositories, find Java 17 Corretto development package, and install it automatically.”
+
+Real-world example
+
+Now that:
+
+you trust the shop
+
+you know the shop address
+
+you finally place the order:
+
+“Send me Java 17 development kit.”
+
+Word breakdown
+
+yum install → install a package
+
+-y → automatically answer “yes” for prompts
+
+java-17-amazon-corretto-devel → package name
+
+--nogpgcheck → do not verify package signature during installation
+
+Important point about --nogpgcheck
+
+This part is a little odd here.
+
+You already imported the GPG key in step 1.
+
+So normally, the system should verify package signatures properly.
+But --nogpgcheck says:
+
+“Install it even if signature verification is skipped.”
+
+Simple meaning
+
+It is like saying:
+
+“I know the shop, but don’t check the parcel seal this time.”
+
+In real world
+
+That is less secure.
+
+Better understanding
+
+With GPG check → safer
+
+With --nogpgcheck → less secure, often used in temporary/testing situations or when there is some repo/signature issue
+
+So in most cases, if repo is configured correctly, you should prefer:
+
+yum install -y java-17-amazon-corretto-devel
+
+without --nogpgcheck.
+
+Overall flow in one easy story
+
+Imagine your Linux server is a company employee.
+
+Step 1:
+
+You give him Amazon’s official signature sample
+→ rpm --import ...
+
+Step 2:
+
+You give him Amazon Corretto shop address
+→ curl -Lo ... corretto.repo
+
+Step 3:
+
+You tell him to go there and bring Java 17 kit
+→ yum install -y java-17-amazon-corretto-devel
+
+Final simple summary
+
+These commands do 3 things:
+
+Import Amazon’s trust key
+
+Add Amazon Corretto repo to yum
+
+Install Java 17 Corretto Development Kit
+
+
+
+What gets installed?
+
+java-17-amazon-corretto-devel means:
+
+Java 17
+
+JDK package
+
+includes tools like:
+
+java
+
+javac
+
+development libraries
+
+This is useful when you want to:
+
+run Java applications
+
+compile Java code
+
+build Maven/Gradle projects
+
+use Jenkins builds requiring Java 17
+
+In DevOps real-time usage
+
+You’ll see this in:
+
+Jenkins servers
+
+EC2 instances
+
+build servers
+
+application servers
+
+Docker images
+
+Example:
+Your Jenkins machine needs Java 17 to run:
+
+Maven build
+
+Gradle build
+
+Sonar scan
+
+Jenkins agent tasks
+
+Then you install Corretto 17 like this.
+
+One-line easy memory trick
+
+Import trust → add repo → install Java
+
+If you want, next I can give you:
+difference between JDK, JRE, JVM using same easy real-world style
+
